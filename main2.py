@@ -96,4 +96,71 @@ Graph_nodes = {
     'I': [('E', 5), ('G', 3), ('H', 2), ('J', 3)],
 }
 
-aStarAlgo('A', 'J')
+moves_played = 0
+
+target_arr = []
+
+got_to_middle = False
+
+def closest_apple(map, my_position):
+    return 
+
+while(True):
+    width, height = int(input()), int(input())
+    map = [ [0]*width for i in range(height)]
+    x = str()
+    for h in range(int(height)):
+        l = input()
+        for w in range(width):
+            map[h][w] = l[w]
+
+    worm_position = [int(i) for i in input().split(' ')]
+    priority, number_players = int(input()), int(input())
+    my_position = [int (i) for i in input().split(' ')]
+    other_players_positions = list()
+    for j in range(int(number_players) - 1):
+        s = input().split(' ')
+        other_players_positions.append((s[0], [int (i) for i in s[1:]]))
+
+    if(got_to_middle == False):
+        target = middle_square = str((width-1)/2) + "-" + str((width-1)/2)
+    else:
+        target = closest_apple(map, my_position)
+
+    my_pos_id = str(my_position[0]) + "-" + str(my_position[1])
+
+    aStarAlgo(my_pos_id, middle_square)
+
+    moves_played = moves_played + 1
+
+    print(map)
+
+#aStarAlgo('A', 'J')
+
+
+
+def test_move(move):
+        if move == 'n':
+            new_position = [my_position[0], my_position[1]-1]
+        elif move == 's':
+            new_position = [my_position[0], my_position[1]+1]
+        elif move == 'e':
+            new_position = [my_position[0]+1, my_position[1]]
+        elif move == 'w':
+            new_position = [my_position[0]-1, my_position[1]]
+        else:
+            new_position = my_position
+        
+        # check borders
+        if new_position[0]<0 or new_position[1]<0 or new_position[0]>width or new_position[1]>height:
+            return False
+        
+        map_symbol = map[new_position[1]][new_position[0]]
+        # check holes
+        if map_symbol == 'O':
+            return False
+        # check worm position
+        if new_position==worm_position:
+            return False
+        
+        return True
